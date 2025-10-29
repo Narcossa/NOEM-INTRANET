@@ -1,0 +1,203 @@
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000000000000000000000000000000000000..4674707811ae8915f01bb3fcf6f91eae2a6abd8f
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,197 @@
++<!DOCTYPE html>
++<html lang="fr">
++  <head>
++    <meta charset="UTF-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++    <title>NOEM Intranet</title>
++    <link
++      rel="stylesheet"
++      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
++      integrity="sha512-olX1QhQOdE31x6Y0wH9RjT4t6oqpFfLeY2hB5eFCcWZ1rC0GgS6Z60RMU4pWxbLFAeX5eQhWl16rYPDhm/1f9Q=="
++      crossorigin="anonymous"
++      referrerpolicy="no-referrer"
++    />
++    <link rel="preconnect" href="https://fonts.googleapis.com" />
++    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
++    <link
++      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap"
++      rel="stylesheet"
++    />
++    <link rel="stylesheet" href="style.css" />
++  </head>
++  <body>
++    <div class="app-shell">
++      <aside class="sidebar">
++        <div class="brand">
++          <i class="fa-solid fa-gem"></i>
++          <span>NOEM Intranet</span>
++        </div>
++        <nav class="nav">
++          <a href="#dashboard" class="nav-link active"><i class="fa-solid fa-house"></i> Tableau de bord</a>
++          <a href="#hours-monitor" class="nav-link"><i class="fa-solid fa-clock"></i> Monitor d'heures</a>
++          <a href="#collaborators" class="nav-link"><i class="fa-solid fa-users"></i> Collaborateurs</a>
++          <a href="#clients" class="nav-link"><i class="fa-solid fa-building"></i> Clients</a>
++          <a href="#announcements" class="nav-link"><i class="fa-solid fa-bullhorn"></i> Annonces</a>
++          <a href="#documents" class="nav-link"><i class="fa-solid fa-folder-open"></i> Documents</a>
++          <a href="#ideas" class="nav-link"><i class="fa-solid fa-lightbulb"></i> Boîte à idées</a>
++          <a href="#connections" class="nav-link"><i class="fa-solid fa-link"></i> Connexion Google Sheet</a>
++        </nav>
++        <div class="sidebar-footer">
++          <div class="clock" id="clock"></div>
++          <div class="weather" id="weather"></div>
++        </div>
++      </aside>
++      <main class="content">
++        <header class="topbar">
++          <div class="search-wrapper">
++            <input type="search" id="global-search" placeholder="Recherche globale..." />
++            <i class="fa-solid fa-magnifying-glass"></i>
++          </div>
++          <div class="notifications" id="notifications"></div>
++        </header>
++
++        <section id="dashboard" class="panel">
++          <h1>Tableau de bord général</h1>
++          <div class="dashboard-grid">
++            <div class="stat-card">
++              <h2>Total heures</h2>
++              <p id="stat-total-hours">--</p>
++            </div>
++            <div class="stat-card">
++              <h2>Collaborateurs actifs</h2>
++              <p id="stat-collaborators">--</p>
++            </div>
++            <div class="stat-card">
++              <h2>Clients suivis</h2>
++              <p id="stat-clients">--</p>
++            </div>
++            <div class="stat-card">
++              <h2>Moyenne heures / semaine</h2>
++              <p id="stat-average-week">--</p>
++            </div>
++          </div>
++          <div class="charts">
++            <canvas id="chart-hours-collaborators"></canvas>
++            <canvas id="chart-hours-clients"></canvas>
++          </div>
++        </section>
++
++        <section id="hours-monitor" class="panel">
++          <h1>Monitor d'heures</h1>
++          <div class="table-wrapper">
++            <table id="hours-table">
++              <thead>
++                <tr>
++                  <th>Collaborateur</th>
++                  <th>Client</th>
++                  <th>Heures</th>
++                  <th>Tâches</th>
++                  <th>Semaine</th>
++                </tr>
++              </thead>
++              <tbody></tbody>
++            </table>
++          </div>
++        </section>
++
++        <section id="collaborators" class="panel">
++          <div class="panel-header">
++            <h1>Collaborateurs</h1>
++            <input type="search" id="collaborator-search" placeholder="Rechercher un collaborateur..." />
++          </div>
++          <div id="collaborators-list" class="card-grid"></div>
++        </section>
++
++        <section id="clients" class="panel">
++          <div class="panel-header">
++            <h1>Clients</h1>
++            <input type="search" id="client-search" placeholder="Rechercher un client..." />
++          </div>
++          <div id="clients-list" class="card-grid"></div>
++        </section>
++
++        <section id="announcements" class="panel">
++          <div class="panel-header">
++            <h1>Annonces internes</h1>
++            <button id="refresh-announcements" class="btn-secondary">
++              <i class="fa-solid fa-rotate"></i> Actualiser
++            </button>
++          </div>
++          <div id="announcements-list" class="timeline"></div>
++          <form id="announcement-form" class="form-card">
++            <h2>Nouvelle annonce</h2>
++            <div class="form-group">
++              <label for="announcement-title">Titre</label>
++              <input type="text" id="announcement-title" required />
++            </div>
++            <div class="form-group">
++              <label for="announcement-author">Auteur</label>
++              <input type="text" id="announcement-author" required />
++            </div>
++            <div class="form-group">
++              <label for="announcement-text">Texte</label>
++              <textarea id="announcement-text" rows="3" required></textarea>
++            </div>
++            <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Publier</button>
++            <p class="form-hint">Les annonces sont synchronisées avec l'onglet "Annonces" du Google Sheet.</p>
++          </form>
++        </section>
++
++        <section id="documents" class="panel">
++          <h1>Documents partagés</h1>
++          <div id="documents-list" class="document-grid"></div>
++        </section>
++
++        <section id="ideas" class="panel">
++          <h1>Boîte à idées</h1>
++          <form id="idea-form" class="form-card">
++            <div class="form-group">
++              <label for="idea-name">Nom</label>
++              <input type="text" id="idea-name" placeholder="Votre nom" required />
++            </div>
++            <div class="form-group">
++              <label for="idea-text">Idée</label>
++              <textarea id="idea-text" rows="3" placeholder="Décrivez votre idée" required></textarea>
++            </div>
++            <div class="form-group">
++              <label for="idea-priority">Priorité</label>
++              <select id="idea-priority" required>
++                <option value="Haute">Haute</option>
++                <option value="Moyenne">Moyenne</option>
++                <option value="Basse">Basse</option>
++              </select>
++            </div>
++            <button type="submit" class="btn-primary"><i class="fa-solid fa-floppy-disk"></i> Envoyer</button>
++            <p class="form-hint">Les idées sont enregistrées dans l'onglet "Idées" du Google Sheet.</p>
++          </form>
++        </section>
++
++        <section id="connections" class="panel">
++          <h1>Connexion Google Sheet & APIs</h1>
++          <div class="config-grid">
++            <div class="config-card">
++              <h2>Identifiant Google Sheet</h2>
++              <code id="sheet-id-display"></code>
++              <p>
++                Modifiez les variables <strong>SHEET_ID</strong> et <strong>API_KEY</strong> dans <code>script.js</code> pour adapter la connexion à votre environnement.
++              </p>
++            </div>
++            <div class="config-card">
++              <h2>API Key</h2>
++              <code id="api-key-display"></code>
++              <p>Stockez vos clés API de manière sécurisée dans un fichier séparé ou via des variables d'environnement lors du déploiement.</p>
++            </div>
++            <div class="config-card">
++              <h2>Webhook Google Apps Script</h2>
++              <code id="webhook-display"></code>
++              <p>Renseignez l'URL du webhook dans <code>script.js</code> pour activer l'écriture des annonces et idées.</p>
++            </div>
++          </div>
++        </section>
++      </main>
++    </div>
++
++    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
++    <script src="script.js"></script>
++  </body>
++</html>
